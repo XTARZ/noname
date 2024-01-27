@@ -1035,6 +1035,13 @@ class Create extends Uninstantable {
 				if (!config.fixed) {
 					input.contentEditable = true;
 					input.style.webkitUserSelect = 'text';
+
+					// Only allow pasting as plain text
+					node.addEventListener('paste', function (e) {
+						e.preventDefault()
+						var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+						document.execCommand("insertHTML", false, text);
+					});
 				}
 				input.style.minWidth = '10px';
 				input.style.maxWidth = '60%';
